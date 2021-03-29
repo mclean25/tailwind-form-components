@@ -3,6 +3,7 @@ import SelectMenuItem from "./SelectMenuItems";
 import { ReactComponent as ChevronDown } from "../assets/icons/chevron-down.svg";
 import { ReactComponent as ChevronUp } from "../assets/icons/chevron-up.svg";
 import { ReactComponent as SearchIcon } from "../assets/icons/search.svg";
+import { ReactComponent as XIcon } from "../assets/icons/x.svg";
 
 interface SelectChoice {
   display: string;
@@ -15,27 +16,23 @@ interface MultiSelectMenuProps {
 
 interface BadgeProps {
   choice: SelectChoice;
+  onRemoveChoice: (choice: SelectChoice) => void;
 }
-const Badge: React.FC<BadgeProps> = ({ choice }) => {
+const Badge: React.FC<BadgeProps> = ({ choice, onRemoveChoice }) => {
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    onRemoveChoice(choice);
+  };
+
   return (
-    <span className="inline-flex rounded-full items-center mr-1 py-0.5 pl-2.5 pr-1 text-sm font-medium bg-tertiary text-primary">
+    <span className="inline-flex z-10 rounded-full items-center mr-1 py-0.5 pl-2.5 pr-1 text-sm font-medium bg-tertiary text-primary">
       {choice.display}
       <button
         type="button"
+        onClick={handleClick}
         className="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white"
       >
-        <svg
-          className="h-2 w-2"
-          stroke="currentColor"
-          fill="none"
-          viewBox="0 0 8 8"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-width="1.5"
-            d="M1 1l6 6m0-6L1 7"
-          />
-        </svg>
+        <XIcon />
       </button>
     </span>
   );
@@ -97,11 +94,15 @@ const MultiSelectMenu: React.FC<MultiSelectMenuProps> = ({ choices }) => {
     );
   };
 
+  const removeChoice = (removeChoice: SelectChoice): void => {
+    setSelectedChoices((selectedChoices) =>
+      selectedChoices.filter((choice) => choice.id !== removeChoice.id)
+    );
+  };
+
   const onSelectChoice = (selectedChoice: SelectChoice) => {
     if (choiceIsSelected(selectedChoice)) {
-      setSelectedChoices((selectedChoices) =>
-        selectedChoices.filter((choice) => choice.id !== selectedChoice.id)
-      );
+      removeChoice(selectedChoice);
     } else {
       setSelectedChoices((selectedChoices) => [
         ...selectedChoices,
@@ -111,7 +112,9 @@ const MultiSelectMenu: React.FC<MultiSelectMenuProps> = ({ choices }) => {
   };
 
   const selectMenuItems = choices
-    .filter((choice) => choice.display.includes(searchText))
+    .filter((choice) =>
+      choice.display.toLowerCase().includes(searchText.toLowerCase())
+    )
     .map((value) => {
       return (
         <SelectMenuItem
@@ -124,7 +127,9 @@ const MultiSelectMenu: React.FC<MultiSelectMenuProps> = ({ choices }) => {
     });
 
   const selectedItemBadges = selectedChoices.map((value) => {
-    return <Badge key={value.id} choice={value} />;
+    return (
+      <Badge key={value.id} choice={value} onRemoveChoice={removeChoice} />
+    );
   });
 
   const focusStyles =
