@@ -44,7 +44,7 @@ const MultiSelectMenu: React.FC<MultiSelectMenuProps> = ({ choices }) => {
     console.log(`selected choices before: ${selectedChoices}`);
     if (choiceIsSelected(selectedChoice)) {
       setSelectedChoices((selectedChoices) =>
-        selectedChoices.filter((choice) => choice !== selectedChoice)
+        selectedChoices.filter((choice) => choice.id !== selectedChoice.id)
       );
     } else {
       setSelectedChoices((selectedChoices) => [
