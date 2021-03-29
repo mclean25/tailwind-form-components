@@ -25,7 +25,7 @@ const Badge: React.FC<BadgeProps> = ({ choice, onRemoveChoice }) => {
   };
 
   return (
-    <span className="inline-flex z-10 rounded-full items-center mr-1 py-0.5 pl-2.5 pr-1 text-sm font-medium bg-tertiary text-primary">
+    <span className="inline-flex z-10 rounded-full items-center mr-1 mb-1 py-0.5 pl-2.5 pr-1 text-sm font-medium bg-tertiary text-primary">
       {choice.display}
       <button
         type="button"
@@ -153,7 +153,7 @@ const MultiSelectMenu: React.FC<MultiSelectMenuProps> = ({ choices }) => {
           onClick={() => setShowDropdown(!showDropdown)}
         >
           {selectedChoices.length > 0 ? (
-            <div className="relative">{selectedItemBadges}</div>
+            <div className="relative -mb-1">{selectedItemBadges}</div>
           ) : (
             <span className="block truncate">Designers</span>
           )}
