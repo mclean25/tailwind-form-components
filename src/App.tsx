@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import MultiSelectMenu from "./components/MultiSelectMenu";
+import MultiSelectMenu, { Search } from "./components/MultiSelectMenu";
 import SelectMenu from "./components/SelectMenu";
 
 const choices = [
@@ -15,6 +15,7 @@ function App() {
   return (
     <div className="container mx-auto pt-4">
       <div className="w-64">
+        <div className="mb-4">{<Search />}</div>
         <div className="mb-4">
           <SelectMenu choices={choices} />
         </div>

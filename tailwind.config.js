@@ -9,6 +9,7 @@ module.exports = {
       gray: "#C1C9E0",
       text: "#5A6786",
       error: "#FF0000",
+      black: "#000000",
       white: "#FFFFFF",
     },
   },
