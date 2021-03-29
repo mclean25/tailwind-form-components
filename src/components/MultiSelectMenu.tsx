@@ -18,7 +18,7 @@ interface BadgeProps {
 }
 const Badge: React.FC<BadgeProps> = ({ choice }) => {
   return (
-    <span className="inline-flex rounded-full items-center mr-1 mb-1 py-0.5 pl-2.5 pr-1 text-sm font-medium bg-tertiary text-primary">
+    <span className="inline-flex rounded-full items-center mr-1 py-0.5 pl-2.5 pr-1 text-sm font-medium bg-tertiary text-primary">
       {choice.display}
       <button
         type="button"
@@ -41,7 +41,11 @@ const Badge: React.FC<BadgeProps> = ({ choice }) => {
   );
 };
 
-export const Search: React.FC = () => {
+interface SearchProps {
+  onChange: (searchText: string) => void;
+}
+
+export const Search: React.FC<SearchProps> = ({ onChange }) => {
   return (
     <div className="max-w-lg w-full lg:max-w-xs">
       <label htmlFor="search" className="sr-only">
@@ -57,6 +61,7 @@ export const Search: React.FC = () => {
           className="block w-full pl-10 pr-3 py-2 bg-tertiary rounded-md leading-5 text-gray placeholder-gray-400 focus:outline-none focus:border-white focus:ring-secondary focus:text-black sm:text-sm"
           placeholder="Search"
           type="search"
+          onChange={(e) => onChange(e.target.value)}
         />
       </div>
     </div>
@@ -65,7 +70,8 @@ export const Search: React.FC = () => {
 
 const MultiSelectMenu: React.FC<MultiSelectMenuProps> = ({ choices }) => {
   const [selectedChoices, setSelectedChoices] = useState<SelectChoice[]>([]);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [searchText, setSearchText] = useState<string>("");
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const selectMenuNode = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -104,16 +110,18 @@ const MultiSelectMenu: React.FC<MultiSelectMenuProps> = ({ choices }) => {
     }
   };
 
-  const selectMenuItems = choices.map((value) => {
-    return (
-      <SelectMenuItem
-        choice={{ display: value.display, id: value.id }}
-        onSelectChoice={onSelectChoice}
-        isSelected={choiceIsSelected(value)}
-        key={value.id}
-      />
-    );
-  });
+  const selectMenuItems = choices
+    .filter((choice) => choice.display.includes(searchText))
+    .map((value) => {
+      return (
+        <SelectMenuItem
+          choice={{ display: value.display, id: value.id }}
+          onSelectChoice={onSelectChoice}
+          isSelected={choiceIsSelected(value)}
+          key={value.id}
+        />
+      );
+    });
 
   const selectedItemBadges = selectedChoices.map((value) => {
     return <Badge key={value.id} choice={value} />;
@@ -151,7 +159,7 @@ const MultiSelectMenu: React.FC<MultiSelectMenuProps> = ({ choices }) => {
         {showDropdown && (
           <div className="absolute max-h-60 mt-2 z-50 py-1 w-full ring-1 ring-black ring-opacity-5 overflow-auto rounded-md bg-white shadow-lg focus:outline-none sm:text-sm">
             <div className="p-2">
-              <Search />
+              <Search onChange={setSearchText} />
             </div>
             <ul
               tabIndex={-1}
