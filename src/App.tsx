@@ -15,9 +15,9 @@ function App() {
   return (
     <div className="container mx-auto pt-4">
       <div className="w-64">
-        {/* <div>
+        <div className="mb-4">
           <SelectMenu choices={choices} />
-        </div> */}
+        </div>
         <div>
           <MultiSelectMenu choices={choices} />
         </div>

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import SelectMenuItem from "./SelectMenuItems";
+import { ReactComponent as ChevronDown } from "../assets/icons/chevron-down.svg";
+import { ReactComponent as ChevronUp } from "../assets/icons/chevron-up.svg";
 
 export interface SelectChoice {
   display: string;
@@ -72,38 +74,11 @@ const SelectMenu: React.FC<SelectMenuProps> = ({ choices }) => {
             {selectedChoice ? selectedChoice.display : "Select one..."}
           </span>
           <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            {showDropdown ? (
-              <svg
-                className="-mr-1 ml-2 h-5 w-5 fill-current text-text"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            ) : (
-              <svg
-                className="-mr-1 ml-2 h-5 w-5 fill-current text-text"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            )}
+            {showDropdown ? <ChevronDown /> : <ChevronUp />}
           </span>
         </button>
         {showDropdown && (
-          <div className="absolute mt-2 w-full rounded-md bg-white shadow-lg">
+          <div className="absolute mt-2 z-50 w-full rounded-md bg-white shadow-lg">
             <ul
               tabIndex={-1}
               role="listbox"

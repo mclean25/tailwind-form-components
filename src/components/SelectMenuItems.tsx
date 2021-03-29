@@ -13,7 +13,7 @@ const SelectMenuItem: React.FC<SelectMenuItemProps> = ({
   onSelectChoice,
 }) => {
   const defaultClass =
-    "hover:bg-tertiary text-gray-900 hover:text-primary rounded-lg cursor-default select-none relative py-1 my-1 pl-2 ml-2 pr-9 mr-2";
+    "hover:bg-tertiary text-gray-900 bg-white hover:text-primary rounded-lg cursor-default select-none relative py-1 my-1 pl-2 ml-2 pr-9 mr-2";
 
   const selectedClass =
     "bg-tertiary text-primary rounded-lg cursor-default select-none relative py-1 my-1 pl-2 ml-2 pr-9 mr-2";
